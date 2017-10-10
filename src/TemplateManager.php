@@ -36,18 +36,10 @@ class TemplateManager
 
             if ($containsSummaryHtml !== false || $containsSummary !== false) {
                 if ($containsSummaryHtml !== false) {
-                    $text = str_replace(
-                        '[quote:summary_html]',
-                        Quote::renderHtml($_quoteFromRepository),
-                        $text
-                    );
+                    $text = $this->getSummaryRender('[quote:summary_html]', $_quoteFromRepository, $text, true);
                 }
                 if ($containsSummary !== false) {
-                    $text = str_replace(
-                        '[quote:summary]',
-                        Quote::renderText($_quoteFromRepository),
-                        $text
-                    );
+                    $text = $this->getSummaryRender('[quote:summary_html]', $_quoteFromRepository, $text);
                 }
             }
 
@@ -69,5 +61,20 @@ class TemplateManager
         }
 
         return $text;
+    }
+
+    /**
+     * Get the summary render in text/html format
+     * @param  [string]  $placeholder [Placeholder]
+     * @param  [object]  $entity      [Entity]
+     * @param  [string]  $text        [String to format]
+     * @param  boolean $html        [Render in HTML format or not]
+     * @return [string]               [Formatted render]
+     */
+    public function getSummaryRender($placeholder, $entity, $text, $html = false) {
+        if(!$html) {
+            return str_replace($placeholder, Quote::renderText($entity), $text);
+        }
+        return str_replace($placeholder, Quote::renderHtml($entity), $text);
     }
 }
