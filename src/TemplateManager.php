@@ -23,12 +23,12 @@ class TemplateManager
 
         if ($quote)
         {
-            $_quoteFromRepository = QuoteRepository::getInstance()->getById($quote->id);
-            $usefulObject = SiteRepository::getInstance()->getById($quote->siteId);
-            $destinationOfQuote = DestinationRepository::getInstance()->getById($quote->destinationId);
+            $_quoteFromRepository = FactoryRepository::generateEntityFromRepository(QuoteRepository::class, $quote->id);
+            $usefulObject = FactoryRepository::generateEntityFromRepository(SiteRepository::class, $quote->siteId);
+            $destinationOfQuote = FactoryRepository::generateEntityFromRepository(DestinationRepository::class, $quote->destinationId);
 
             if(strpos($text, '[quote:destination_link]') !== false){
-                $destination = DestinationRepository::getInstance()->getById($quote->destinationId);
+                $destination = FactoryRepository::generateEntityFromRepository(DestinationRepository::class, $quote->destinationId);
             }
 
             $containsSummaryHtml = strpos($text, '[quote:summary_html]');
