@@ -7,6 +7,7 @@ require_once __DIR__ . '/../src/Entity/Template.php';
 require_once __DIR__ . '/../src/Entity/User.php';
 require_once __DIR__ . '/../src/Helper/SingletonTrait.php';
 require_once __DIR__ . '/../src/Context/ApplicationContext.php';
+require_once __DIR__ . '/../src/Repository/FactoryRepository.php';
 require_once __DIR__ . '/../src/Repository/Repository.php';
 require_once __DIR__ . '/../src/Repository/DestinationRepository.php';
 require_once __DIR__ . '/../src/Repository/QuoteRepository.php';
@@ -36,7 +37,7 @@ class TemplateManagerTest extends PHPUnit_Framework_TestCase
     {
         $faker = \Faker\Factory::create();
 
-        $expectedDestination = DestinationRepository::getInstance()->getById($faker->randomNumber());
+        $expectedDestination = FactoryRepository::generateEntityFromRepository(DestinationRepository::class, $faker->randomNumber());
         $expectedUser = ApplicationContext::getInstance()->getCurrentUser();
 
         $quote = new Quote($faker->randomNumber(), $faker->randomNumber(), $faker->randomNumber(), $faker->date());
